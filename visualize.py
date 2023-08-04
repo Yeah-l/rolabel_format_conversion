@@ -5,7 +5,7 @@ import cv2
 
 def draw(image_data, line):
     line = line.strip()
-    points_list = line.split(',')[:-1]
+    points_list = line.split(' ')[:-2]
     if points_list:
         points = [int(point) for point in points_list]
         points = np.reshape(points, (-1, 2))
@@ -14,7 +14,7 @@ def draw(image_data, line):
 
 def visualize(image_root, txt_root, output_root):
     def read_gt_file(image_name):
-        gt_file = os.path.join(txt_root, '%s.txt'%(image_name.split('.jpg')[0]))
+        gt_file = os.path.join(txt_root, '%s.txt'%(image_name.split('.bmp')[0]))
         with open(gt_file, 'r') as gt_f:
             return gt_f.readlines()
     
@@ -30,11 +30,11 @@ def visualize(image_root, txt_root, output_root):
             gt_list = read_gt_file(image_name)
             for gt in gt_list:
                 draw(gt_image_data, gt)
-                cv2.imwrite(os.path.joinoutput_root, image_name(), gt_image_data)
+                cv2.imwrite(os.path.join(output_root, image_name), gt_image_data)
 
 
 if __name__ == '__main__':    
-    image_root = 'img'
-    txt_root = 'txt'
-    output_root = 'visualized_img'
+    image_root = r'E:\Data\\picture\\train\\images'
+    txt_root = r'E:\Data\\picture\\train\\labelTxt'
+    output_root = r'E:\Data\\picture\\train\\vis'
     visualize(image_root, txt_root, output_root)
